@@ -27,7 +27,7 @@ interface ICustomer {
   custCountry: string;
 }
 
-export interface IOrderExt extends Optional<IOrder, "id"> {}
+export interface IOrderExt extends Optional<IOrder, "id" | "pharmacyId"> {}
 
 @Table({
   timestamps: true,

@@ -21,7 +21,11 @@ const createOrderService = async (
     pharmacyId: pharmacy.id,
   });
 
-  return { status: 201, message: "Order successfully created", data: order };
+  return {
+    status: 201,
+    message: "Order successfully created",
+    data: responseModel(pharmacyName, order),
+  };
 };
 
 const fetchOrderService = async (
@@ -36,9 +40,9 @@ const fetchOrderService = async (
         attributes: ["integrationName"],
       },
     ],
-    limit: Number(params?.limit) ?? defaultParameters.limit,
+    limit: Number(params?.limit) || defaultParameters.limit,
     offset:
-      Number(params?.offset) * Number(params?.limit) ??
+      Number(params?.offset) * Number(params?.limit) ||
       defaultParameters.offset,
   });
 
