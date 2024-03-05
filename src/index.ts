@@ -4,8 +4,9 @@ import helmet from "helmet";
 import compression from "compression";
 import cors from "cors";
 import routes from "./routes";
-
 import sequelize from "./db";
+import { seedDatabase } from "./models/seeder/pharmacy.seed";
+
 const app = express();
 dotenv.config();
 
@@ -22,6 +23,7 @@ routes(app);
 const main = async () => {
   try {
     await sequelize.sync();
+    await seedDatabase();
     console.log("Database connected...");
 
     app.listen(PORT, () => {
