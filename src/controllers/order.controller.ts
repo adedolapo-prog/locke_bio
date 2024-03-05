@@ -1,8 +1,9 @@
 import { Request, Response } from "express";
-import Order, { IOrderExt } from "../models/order";
+import { IOrderExt } from "../models/order";
 import {
   createOrderService,
   fetchOrderService,
+  fetchSingleOrderService,
 } from "../services/order.service";
 
 const createOrderController = async (req: Request, res: Response) => {
@@ -34,4 +35,21 @@ const fetchOrdersController = async (req: Request, res: Response) => {
   }
 };
 
-export { createOrderController, fetchOrdersController };
+const fetchSingleOrderController = async (req: Request, res: Response) => {
+  try {
+    const pharmacyName = req.originalUrl.split("/")[1];
+    const orderId = req.params.orderId;
+    const order = await fetchSingleOrderService(pharmacyName, orderId);
+
+    res.status(order.status).json(order);
+  } catch (error: any) {
+    console.log("err", error.message);
+    res.status(500).json({ msg: "Something went wrong" });
+  }
+};
+
+export {
+  createOrderController,
+  fetchOrdersController,
+  fetchSingleOrderController,
+};

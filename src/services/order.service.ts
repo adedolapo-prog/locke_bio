@@ -51,4 +51,30 @@ const fetchOrderService = async (
   };
 };
 
-export { createOrderService, fetchOrderService };
+const fetchSingleOrderService = async (
+  pharmacyName: string,
+  orderId: string
+): Promise<IResponse> => {
+  const order = await Order.findOne({
+    where: {
+      id: Number(orderId),
+    },
+    include: [
+      {
+        model: Pharmacy,
+        where: { integrationName: pharmacyName },
+        attributes: ["integrationName"],
+      },
+    ],
+  });
+
+  if (!order) return { status: 404, message: "Order not found" };
+
+  return {
+    status: 200,
+    message: "Order successfully fetched",
+    data: responseModel(pharmacyName, order),
+  };
+};
+
+export { createOrderService, fetchOrderService, fetchSingleOrderService };

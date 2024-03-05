@@ -6,6 +6,7 @@ export interface IResponse {
 
 export const responseModel = (name: string, response: any) => {
   return {
+    id: response.id,
     [`${name}Product`]: response.product,
     [`${name}Quantity`]: response.quantity,
     [`${name}CustomerInfo`]: {
