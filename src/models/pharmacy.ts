@@ -1,17 +1,18 @@
-import { Table, Column, DataType, Model } from "sequelize-typescript";
+import { Table, Column, DataType, Model, HasMany } from "sequelize-typescript";
 import { Optional } from "sequelize";
+import Order from "./order";
 
 interface IPharmacy {
-  id: Number;
-  integrationName: String;
-  name: String;
-  address: String;
-  city: String;
-  state: String;
-  zipcode: String;
-  country: String;
-  fax: String;
-  phone: String;
+  id: number;
+  integrationName: string;
+  name: string;
+  address: string;
+  city: string;
+  state: string;
+  zipcode: string;
+  country: string;
+  fax: string;
+  phone: string;
 }
 
 export interface IPharmacyExt extends Optional<IPharmacy, "id"> {}
@@ -82,4 +83,7 @@ export default class Pharmacy extends Model<IPharmacyExt> {
     allowNull: false,
   })
   phone!: string;
+
+  @HasMany(() => Order)
+  orders!: Order[];
 }
